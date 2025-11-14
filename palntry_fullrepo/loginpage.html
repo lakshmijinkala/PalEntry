@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>PalNtry Login</title>
     <link rel="stylesheet" href="../website-css/loginpage.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
@@ -11,24 +11,76 @@
 <body>
     <div class="entire">
 
-        <p class="name">Log In</p>
+        <p class="name">PalNtry</p>
 
+        <!-- Login Inputs -->
         <input id="email" type="text" placeholder="Email or Phone Number">
         <input id="password" type="password" placeholder="Password">
 
+        <!-- Login Button -->
         <button id="loginBtn">Log In</button>
 
-        <p class="forgot">
-            <a href="forgotpassword.html">Forgot Password?</a>
+        <p class="forgot" style="margin-top:10px;">
+            <span id="forgotPassword" style="cursor:pointer; color:blue;">Forgot Password?</span>
         </p>
 
         <p class="signup">
-            Don't have an account? <a href="signuppage.html">Sign Up</a>
+            Don't have an account? <span id="goSignup" style="color:blue; cursor:pointer;">Sign Up</span>
         </p>
 
     </div>
 
-    <!-- Firebase Script (You will add this later) -->
-    <script src="login.js"></script>
+    <!-- Firebase + Login Script -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } 
+            from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBcKwN19YU2vNb8bCdQRvenKVVTgMbbsR8",
+            authDomain: "palntry.firebaseapp.com",
+            projectId: "palntry",
+            storageBucket: "palntry.firebasestorage.app",
+            messagingSenderId: "664869269406",
+            appId: "1:664869269406:web:2cdc64f5e64b42d0bdb08f",
+            measurementId: "G-M8NFF4V16W"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // LOGIN BUTTON
+        document.getElementById("loginBtn").addEventListener("click", () => {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            if (!email || !password) {
+                alert("Please enter both email and password.");
+                return;
+            }
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then(() => {
+                    alert("Login successful!");
+                    window.location.href = "homepage.html"; // Redirect after login
+                })
+                .catch((error) => {
+                    alert("Login failed: " + error.message);
+                });
+        });
+
+        // SIGN UP LINK
+        document.getElementById("goSignup").addEventListener("click", () => {
+            window.location.href = "signuppage.html";
+        });
+
+        // FORGOT PASSWORD LINK
+        document.getElementById("forgotPassword").addEventListener("click", () => {
+            window.location.href = "forgotpassword.html";
+        });
+    </script>
+
 </body>
 </html>
