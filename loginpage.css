@@ -1,55 +1,158 @@
+/* Background */
 body {
-  background-image: url('../img/e5ebca0b-c3b3-4a91-ab67-da8dd64f71f3.jpg');
-  background-size: cover;       /* Fill the whole page */
-  background-repeat: no-repeat;
-  background-position: center;
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+
+
+
+/* Center wrapper like homepage container */
 .entire {
-    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #ffffff;
+    width: 380px;                 /* same card width style */
+    padding: 24px;
+    border-radius: 14px;          /* same rounded corners */
+    box-shadow: 0 8px 24px rgba(31,79,31,0.06);   /* same soft shadow */
+    border: 1px solid rgba(0,0,0,0.04);
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
 }
 
+/* Title */
 .name {
-    font-size: 30px;
-    font-weight: bold;
+    font-size: 24px;
+    font-weight: 800;
     margin-bottom: 20px;
+    color: #1f4f1f;               /* same dark green text */
 }
 
+/* Inputs match homepage style */
 input {
-    background-color: #E5E5E5;
-    border: none;
-    border-radius: 3px;
-    height: 35px;
-    margin-bottom: 10px;
-    padding-left: 10px;
-    width: 250px;
+    background-color: #f0f4f0;
+    border: 1px solid rgba(0,0,0,0.04);
+    border-radius: 10px;          /* more rounded like homepage */
+    height: 42px;                 /* taller for consistency */
+    margin-bottom: 12px;
+    padding-left: 12px;
+    width: 100%;                  /* match card width */
+    font-size: 14px;
 }
 
+/* Button similar to icon-btn style */
 button {
-    width: 260px;
-    height: 35px;
-    background-color: #A5CFA7;
-    border-color: solid;
-    border-width: 1px;
-    border-radius: 3px;
+    width: 100%;
+    height: 44px;
+    background-color: #8fb78f;    /* same accent green */
+    border: none;
+    border-radius: 12px;          /* match homepage buttons */
+    color: white;
+    font-weight: 700;
     cursor: pointer;
+    box-shadow: 0 6px 18px rgba(31,79,31,0.08);
+    margin-top: 8px;
 }
 
+/* Forgot password */
 .forgot {
     font-size: 13px;
-    margin-bottom: -3px;
+    margin-top: 8px;
+    color: #6b7b6b;               /* muted text */
     cursor: pointer;
 }
 
+/* Links */
 span {
     color: #3D3DAF;
     cursor: pointer;
+    font-weight: 600;
 }
 
 .already {
-    font-size: 15px;
+    font-size: 14px;
+    margin-top: 10px;
+    color: #6b7b6b;
+}
+/* Background */
+body {
+  background: var(--bg, #f7fbf7);
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Center wrapper like homepage container */
+.entire {
+    background: #ffffff;
+    width: 380px;                 /* same card width style */
+    padding: 24px;
+    border-radius: 14px;          /* same rounded corners */
+    box-shadow: 0 8px 24px rgba(31,79,31,0.06);   /* same soft shadow */
+    border: 1px solid rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Title */
+.name {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: #1f4f1f;               /* same dark green text */
+}
+
+/* Inputs match homepage style */
+input {
+    background-color: #f0f4f0;
+    border: 1px solid rgba(0,0,0,0.04);
+    border-radius: 10px;          /* more rounded like homepage */
+    height: 42px;                 /* taller for consistency */
+    margin-bottom: 12px;
+    padding-left: 12px;
+    width: 100%;                  /* match card width */
+    font-size: 14px;
+}
+
+/* Button similar to icon-btn style */
+button {
+    width: 100%;
+    height: 44px;
+    background-color: #8fb78f;    /* same accent green */
+    border: none;
+    border-radius: 12px;          /* match homepage buttons */
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(31,79,31,0.08);
+    margin-top: 8px;
+}
+
+/* Forgot password */
+.forgot {
+    font-size: 13px;
+    margin-top: 8px;
+    color: #6b7b6b;               /* muted text */
+    cursor: pointer;
+}
+
+/* Links */
+span {
+    color: #3D3DAF;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.already {
+    font-size: 14px;
+    margin-top: 10px;
+    color: #6b7b6b;
 }
