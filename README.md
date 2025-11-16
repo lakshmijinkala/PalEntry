@@ -8,8 +8,6 @@ PalEntry helps users reduce waste by scanning their groceries, tracking expirati
 - 🫐 [Le Gia Nguyen](https://github.com/GiaKhanhDe)
 - 🍒 [Kelsey Knight](https://github.com/johnsmith)
 
-
-
 ## Features
 ### Log-In 
 *SignIn*
@@ -28,8 +26,7 @@ PalEntry helps users reduce waste by scanning their groceries, tracking expirati
 * The User will be able to provide information about their pantry, such as the food items within the pantry, (optional) the amount of goods, (optional).
 * The System/AI will provide detailed advice based on the information provided.
 
-
-### AI Dropdown Questions 
+### AI Canned Questions 
 * The User will see a dropdown or button group of “canned” AI questions for quick interaction.
 * Example options: “What can I cook in under 10 minutes?”, “What recipes use my soon-to-expire items?”, “What’s a healthy meal with pasta?”
 * The AI will generate a focused 200-word reply for whichever option is selected.
@@ -52,7 +49,9 @@ PalEntry helps users reduce waste by scanning their groceries, tracking expirati
 ![Workflow Overview 2](assets/workflowPt2.png)
 
 ## Splitting our Work
-Content goes here...
+[Lakshmi Jinkala](https://github.com/lakshmijinkala): Read Me file, AI Canned Questions, Homepage
+[Le Gia Nguyen](https://github.com/GiaKhanhDe): Log-in, Sign-In 
+[Kelsey Knight](https://github.com/johnsmith): AI Chatbot, Store Locator, Cookbook
 
 ## Technologies Used
 Content goes here...
