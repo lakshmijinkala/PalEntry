@@ -1,9 +1,9 @@
-# PalEntry - Group 6
+# PalEntry - Group 6 
 
 ## Contributers
-- [Lakshmi Jinkala](https://github.com/lakshmijinkala)
-- [Le Gia Nguyen](https://github.com/GiaKhanhDe)
-- [Kelsey Knight](https://github.com/johnsmith)
+- 🥑 [Lakshmi Jinkala](https://github.com/lakshmijinkala)
+- 🫐 [Le Gia Nguyen](https://github.com/GiaKhanhDe)
+- 🍒 [Kelsey Knight](https://github.com/johnsmith)
 
 ### Purpose 
 
