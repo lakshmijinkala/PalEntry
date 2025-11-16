@@ -6,18 +6,20 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  background-image: url('../img/background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
-
-
-
 
 /* Center wrapper like homepage container */
 .entire {
     background: #ffffff;
-    width: 380px;                 /* same card width style */
+    width: 380px;
     padding: 24px;
-    border-radius: 14px;          /* same rounded corners */
-    box-shadow: 0 8px 24px rgba(31,79,31,0.06);   /* same soft shadow */
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(31,79,31,0.06);
     border: 1px solid rgba(0,0,0,0.04);
     display: flex;
     flex-direction: column;
@@ -29,18 +31,18 @@ body {
     font-size: 24px;
     font-weight: 800;
     margin-bottom: 20px;
-    color: #1f4f1f;               /* same dark green text */
+    color: #1f4f1f;
 }
 
 /* Inputs match homepage style */
 input {
     background-color: #f0f4f0;
     border: 1px solid rgba(0,0,0,0.04);
-    border-radius: 10px;          /* more rounded like homepage */
-    height: 42px;                 /* taller for consistency */
+    border-radius: 10px;
+    height: 42px;
     margin-bottom: 12px;
     padding-left: 12px;
-    width: 100%;                  /* match card width */
+    width: 100%;
     font-size: 14px;
 }
 
@@ -48,9 +50,9 @@ input {
 button {
     width: 100%;
     height: 44px;
-    background-color: #8fb78f;    /* same accent green */
+    background-color: #8fb78f;
     border: none;
-    border-radius: 12px;          /* match homepage buttons */
+    border-radius: 12px;
     color: white;
     font-weight: 700;
     cursor: pointer;
@@ -62,85 +64,7 @@ button {
 .forgot {
     font-size: 13px;
     margin-top: 8px;
-    color: #6b7b6b;               /* muted text */
-    cursor: pointer;
-}
-
-/* Links */
-span {
-    color: #3D3DAF;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.already {
-    font-size: 14px;
-    margin-top: 10px;
     color: #6b7b6b;
-}
-/* Background */
-body {
-  background: var(--bg, #f7fbf7);
-  margin: 0;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Center wrapper like homepage container */
-.entire {
-    background: #ffffff;
-    width: 380px;                 /* same card width style */
-    padding: 24px;
-    border-radius: 14px;          /* same rounded corners */
-    box-shadow: 0 8px 24px rgba(31,79,31,0.06);   /* same soft shadow */
-    border: 1px solid rgba(0,0,0,0.04);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Title */
-.name {
-    font-size: 24px;
-    font-weight: 800;
-    margin-bottom: 20px;
-    color: #1f4f1f;               /* same dark green text */
-}
-
-/* Inputs match homepage style */
-input {
-    background-color: #f0f4f0;
-    border: 1px solid rgba(0,0,0,0.04);
-    border-radius: 10px;          /* more rounded like homepage */
-    height: 42px;                 /* taller for consistency */
-    margin-bottom: 12px;
-    padding-left: 12px;
-    width: 100%;                  /* match card width */
-    font-size: 14px;
-}
-
-/* Button similar to icon-btn style */
-button {
-    width: 100%;
-    height: 44px;
-    background-color: #8fb78f;    /* same accent green */
-    border: none;
-    border-radius: 12px;          /* match homepage buttons */
-    color: white;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 6px 18px rgba(31,79,31,0.08);
-    margin-top: 8px;
-}
-
-/* Forgot password */
-.forgot {
-    font-size: 13px;
-    margin-top: 8px;
-    color: #6b7b6b;               /* muted text */
     cursor: pointer;
 }
 
