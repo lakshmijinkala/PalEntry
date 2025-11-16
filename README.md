@@ -14,6 +14,7 @@ PalEntry helps users reduce waste by scanning their groceries, tracking expirati
 ### Log-In 
 *SignIn*
 * The User has the option to sign up on the app, with their phone number or their email address.
+
 *LogIn*
 * The User has the option of logging into their account with their chosen login credentials.
 * They have the option of resetting their password if they forget it. 
