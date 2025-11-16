@@ -1,4 +1,4 @@
-# PalEntry - Group 6 
+# 🥗 PalEntry 
 
 ## Purpose 
 PalEntry helps users reduce waste by scanning their groceries, tracking expiration dates, and viewing them in a clear calendar layout. The app sends reminders for items expiring soon and includes an integrated AI that suggests recipes using those ingredients. Users can also save and organize recipes from others for later use.
