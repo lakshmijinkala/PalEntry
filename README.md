@@ -55,8 +55,9 @@ PalEntry helps users reduce waste by scanning their groceries, tracking expirati
 
 [Kelsey Knight](https://github.com/johnsmith): AI Chatbot, Store Locator, Cookbook
 
-## Technologies Used
+<!-- ## Technologies Used
 Content goes here...
+-->
 
 ## Contact Us! 
 
