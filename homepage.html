@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Home Page</title>
+  <style>
+    :root{
+      --bg:#f7fbf7; /* very light green */
+      --card:#ffffff;
+      --muted:#6b7b6b;
+      --accent:#8fb78f; /* soft green */
+      --accent-2:#d7ead7;
+      --glass: rgba(143,183,143,0.08);
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--bg);color:#153115}
+
+    /* Top navigation */
+    .topbar{
+      display:flex;align-items:center;gap:12px;padding:18px;position:sticky;top:0;background:transparent;z-index:20;border-bottom:1px solid rgba(0,0,0,0.04);
+    }
+    .brand{font-weight:700;font-size:20px;letter-spacing:0.4px;margin:auto}
+    .nav-buttons{position:absolute;left:18px;display:flex;gap:12px}
+    .nav-buttons a{display:flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;background:var(--accent);text-decoration:none;color:white;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+    .nav-buttons a span{font-size:14px}
+
+    .user-pill{position:absolute;right:18px;background:var(--card);padding:8px 12px;border-radius:999px;border:1px solid rgba(0,0,0,0.06);font-weight:700}
+
+    /* Layout */
+    .container{max-width:1100px;margin:18px auto;padding:0 18px;display:grid;grid-template-columns:1fr 320px;gap:22px}
+
+    /* Center title */
+    .page-title{font-size:24px;font-weight:800;text-align:center;margin:18px 0;color:#1f4f1f}
+
+    /* Feed cards */
+    .feed{display:flex;flex-direction:column;gap:16px}
+    .card{background:var(--card);border-radius:14px;padding:12px;border:1px solid rgba(0,0,0,0.04);display:flex;gap:12px;align-items:flex-start;box-shadow:0 8px 24px rgba(31,79,31,0.03)}
+    .thumb{width:160px;height:110px;border-radius:8px;overflow:hidden;flex-shrink:0;background:var(--accent-2);display:flex;align-items:center;justify-content:center}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .content{flex:1}
+    .meta{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px}
+    .title{font-weight:700;margin:6px 0 8px}
+    .desc{color:var(--muted);font-size:14px;line-height:1.4;max-height:3.3em;overflow:hidden}
+    .desc.expanded{max-height:unset}
+    .actions{display:flex;gap:10px;margin-top:10px;align-items:center}
+    .btn{background:transparent;border:1px solid rgba(0,0,0,0.04);padding:8px 10px;border-radius:10px;cursor:pointer;color:var(--muted);font-weight:700}
+    .btn.like.active{color:var(--accent);border-color:rgba(143,183,143,0.2);box-shadow:0 6px 18px rgba(143,183,143,0.06)}
+    .count{font-weight:800}
+
+    /* Right column */
+    .aside{position:sticky;top:84px;background:var(--card);padding:12px;border-radius:12px;border:1px solid rgba(0,0,0,0.04)}
+    .aside h3{margin:0 0 8px}
+    .small-list{display:flex;flex-direction:column;gap:8px}
+    .small-item{display:flex;gap:10px;align-items:center}
+    .small-item img{width:48px;height:48px;border-radius:8px;object-fit:cover}
+
+    /* Modal */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(10,18,14,0.3);z-index:40}
+    .modal.open{display:flex}
+    .modal-card{width:min(880px,95%);max-height:86vh;overflow:auto;background:var(--card);padding:18px;border-radius:12px;border:1px solid rgba(0,0,0,0.04)}
+    .modal img{width:100%;height:300px;object-fit:cover;border-radius:8px}
+
+    /* Responsive */
+    @media (max-width:980px){.container{grid-template-columns:1fr}.aside{position:relative;top:0}}
+    @media (max-width:560px){.thumb{display:none}.nav-buttons a{width:48px;height:48px}}
+
+    /* small helpers */
+    .muted{color:var(--muted)}
+    .pill{background:var(--accent-2);padding:6px 8px;border-radius:999px;border:1px solid rgba(0,0,0,0.03);font-size:13px}
+
+        /* center the icon row above the feed */
+    .icon-row{
+    display:flex;
+    justify-content:center;   /* centers icons horizontally */
+    gap:18px;
+    margin:12px 0 20px;
+    align-items:center;
+    }
+
+    /* circular buttons / icons */
+    .icon-btn{
+    width:72px;
+    height:72px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:var(--accent);   /* soft green */
+    color:#fff;
+    text-decoration:none;
+    font-size:28px;
+    box-shadow:0 8px 20px rgba(31,79,31,0.08);
+    border:1px solid rgba(0,0,0,0.04);
+    }
+    .icon-btn img{width:44px;height:44px;object-fit:contain}
+
+  </style>
+</head>
+<body>
+  <header class="topbar">
+
+    <div class="brand">Home Page</div>
+
+    <div id="userPill" class="user-pill" aria-hidden="false">User</div>
+  </header>
+
+  <main class="container">
+    <!-- <section style="grid-column:1/-1"><div class="page-title">Home Page</div></section> -->
+
+    <section style="grid-column:1/-1">
+    <div class="icon-row" aria-hidden="false">
+        <a href="cookbook.html" class="icon-btn" title="Cookbook">📖</a>
+        <a href="aichatbot.html" class="icon-btn" title="AI Chatbot">🤖</a>
+        <a href="map.html" class="icon-btn" title="Map">🗺️</a>
+    </div>
+    </section>
+
+
+    <section class="feed" id="feed" aria-live="polite">
+      <!-- Posts will render here -->
+    </section>
+
+    <aside class="aside" aria-label="sidebar">
+      <h3>Trending Recipes</h3>
+      <div id="trendList" class="small-list"></div>
+      <hr style="border:none;border-top:1px solid rgba(0,0,0,0.04);margin:12px 0">
+      <h3>Saved</h3>
+      <div id="savedList" class="small-list muted">No saved recipes yet</div>
+    </aside>
+  </main>
+
+  <!-- Modal for full recipe -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true">
+    <div class="modal-card" id="modalCard">
+      <button id="closeModal" class="btn" style="float:right">Close</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script>
+    // ---------- Sample data (more posts) ----------
+   const SAMPLE_POSTS = [
+  {id:'p1',user:'Maya',title:'Creamy Lemon Pasta',image:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=60',short:'A bright creamy pasta with lemon, garlic, parmesan.',full:`Ingredients:
+- 12 oz pasta
+- 1 cup heavy cream
+- 1 lemon (zest + juice)
+- 1/2 cup grated parmesan
+
+Directions:
+Cook pasta al dente. Sauté garlic, add cream, reduce. Stir in lemon, cheese, toss with pasta.`,likes:24,saves:3,createdAt:'2025-11-10'},
+  {id:'p2',user:'Diego',title:'Spicy Kimchi Stew',image:'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=60',short:'A soulful stew loaded with kimchi and tofu.',full:`Ingredients:
+- 2 cups kimchi
+- 4 cups broth
+- 200g tofu
+
+Directions:
+Simmer all ingredients for 15-20 minutes.`,likes:178,saves:67,createdAt:'2025-11-12'},
+  {id:'p3',user:'Aisha',title:'No-Bake Chocolate Tart',image:'https://i.ytimg.com/vi/e2n1AivVBRU/maxresdefault.jpg',short:'Rich chocolate tart without an oven.',full:`Melt chocolate with cream, pour into crust, chill 2+ hours.`,likes:18,saves:6,createdAt:'2025-11-05'},
+  {id:'p4',user:'Luca',title:'Avocado Toast Deluxe',image:'https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=60',short:'Crispy bread, smashed avocado, chili flakes.',full:`Toast bread, smash avocado, season, top with chili and lemon.`,likes:34,saves:5,createdAt:'2025-10-28'},
+  {id:'p5',user:'Hana',title:'Mango Coconut Smoothie',image:'https://asianinspirations.com.au/wp-content/uploads/2018/07/R00653_Thai-Mango-Coconut-Smoothie.jpg',short:'Tropical smoothie with coconut milk and mango.',full:`Blend mango, coconut milk, ice, a touch of honey.`,likes:12,saves:2,createdAt:'2025-09-12'},
+  {id:'p6',user:'Omar',title:'Herbed Chicken Skewers',image:'https://www.thetastychilli.com/wp-content/uploads/2020/08/bbq-lemon-herb-chicken-skewers.jpg',short:'Marinated skewers with fresh herbs and lemon.',full:`Marinate chicken, skewer, grill 6-8 min.`,likes:27,saves:4,createdAt:'2025-08-21'},
+  {id:'p7',user:'Priya',title:'Masala Chai Pancakes',image:'https://muneezaahmed.com/wp-content/uploads/2023/05/gluten-free-masala-chai-pancakes-recipe-featured-image.jpg',short:'Pancakes infused with chai spices.',full:`Add chai spices to batter, cook on griddle.`,likes:9,saves:1,createdAt:'2025-07-30'},
+  {id:'p8',user:'Noah',title:'Roasted Veggie Bowl',image:'https://heatherchristo.com/wp-content/uploads/2020/04/49425944071_cc63a49299_o-1-scaled.jpg',short:'Seasonal roasted vegetables with grain.',full:`Roast mixed veggies, serve over quinoa with tahini.`,likes:22,saves:2,createdAt:'2025-06-18'},
+  {id:'p9',user:'Sofia',title:'Blueberry Oat Bars',image:'https://thisdelicioushouse.com/wp-content/uploads/2019/04/fullsizeoutput_378a.jpeg',short:'Chewy oat bars with fresh blueberries.',full:`Mix oats, butter, sugar; fold in berries; bake 20-25 min.`,likes:15,saves:3,createdAt:'2025-05-05'},
+  {id:'p10',user:'Kai',title:'Garlic Butter Shrimp',image:'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=60',short:'Quick garlic butter shrimp over pasta.',full:`Sear shrimp in garlic butter, toss with pasta.`,likes:38,saves:7,createdAt:'2025-04-08'}
+];
+
+    // ---------- Persistence helpers ----------
+    const LS_LIKES = 'cookshare_likes_v2';
+    const LS_SAVES = 'cookshare_saves_v2';
+    const LS_USER = 'cookshare_user_v2';
+
+    function loadState(){
+      const likes = JSON.parse(localStorage.getItem(LS_LIKES) || '{}');
+      const saves = JSON.parse(localStorage.getItem(LS_SAVES) || '[]');
+      return {likes, saves};
+    }
+    function saveState(state){
+      localStorage.setItem(LS_LIKES, JSON.stringify(state.likes));
+      localStorage.setItem(LS_SAVES, JSON.stringify(state.saves));
+    }
+
+    // Random username generator (persists to localStorage)
+    function getOrCreateUser(){
+      let user = localStorage.getItem(LS_USER);
+      if(user) return user;
+      const adjectives = ['Sunny','Green','Spicy','Cozy','Happy','Merry','Little','Brave','Fresh','Kind'];
+      const animals = ['Spoon','Fork','Sage','Ladle','Basil','Bean','Peach','Crumb','Pixel','Whisk'];
+      const pick = (arr)=> arr[Math.floor(Math.random()*arr.length)];
+      user = pick(adjectives) + pick(animals) + Math.floor(Math.random()*90+10);
+      localStorage.setItem(LS_USER,user);
+      return user;
+    }
+
+    // Start with sample posts — in a real app this would come from a server
+    let posts = [...SAMPLE_POSTS];
+    let state = loadState();
+
+    // Render functions
+    const feedEl = document.getElementById('feed');
+    const trendEl = document.getElementById('trendList');
+    const savedEl = document.getElementById('savedList');
+    const modal = document.getElementById('modal');
+    const modalContent = document.getElementById('modalContent');
+
+    function render(){
+      // sort by likes + saves as a simple popularity metric
+      posts.sort((a,b)=> (b.likes + b.saves) - (a.likes + a.saves));
+
+      // Feed
+      feedEl.innerHTML = '';
+      posts.forEach(post=>{
+        const liked = !!state.likes[post.id];
+        const saved = state.saves.includes(post.id);
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="thumb" aria-hidden="true">
+            <img src="${post.image}" alt="${post.title} image" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'300\'><rect width=\'100%\' height=\'100%\' fill=\'%23d7ead7\'/><text x=\'50%\' y=\'50%\' fill=\'%23304423\' font-size=\'18\' text-anchor=\'middle\'>Image unavailable</text></svg>'">
+          </div>
+          <div class="content">
+            <div class="meta"><span class="muted">@${post.user}</span><span>•</span><span class="muted">${post.createdAt}</span></div>
+            <div class="title">${post.title}</div>
+            <div class="desc" id="desc-${post.id}">${escapeHtml(post.short)}</div>
+            <div class="actions">
+              <button class="btn like ${liked? 'active':''}" data-action="like" data-id="${post.id}">❤️ <span class="count">${post.likes}</span></button>
+              <button class="btn save ${saved? 'active':''}" data-action="save" data-id="${post.id}">${saved? 'Saved' : 'Save'}</button>
+              <button class="btn" data-action="more" data-id="${post.id}">More</button>
+            </div>
+          </div>
+        `;
+        feedEl.appendChild(card);
+      });
+
+      // Trending (top 4 by likes)
+      const top = [...posts].sort((a,b)=>b.likes-a.likes).slice(0,4);
+      trendEl.innerHTML = '';
+      top.forEach(p=>{
+        const el = document.createElement('div');
+        el.className = 'small-item';
+        el.innerHTML = `<img src="${p.image}" alt="${p.title}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\'><rect width=\'100%\' height=\'100%\' fill=\'%23d7ead7\'/></svg>'"><div><div style='font-weight:700'>${p.title}</div><div class='muted' style='font-size:13px'>${p.likes} likes</div></div>`;
+        trendEl.appendChild(el);
+      });
+
+      // Saved list
+      const savedPosts = posts.filter(p=> state.saves.includes(p.id));
+      if(savedPosts.length===0){ savedEl.innerHTML='No saved recipes yet'; }
+      else{
+        savedEl.innerHTML='';
+        savedPosts.forEach(p=>{
+          const it = document.createElement('div');
+          it.className = 'small-item';
+          it.innerHTML = `<img src="${p.image}" alt="${p.title}"><div><div style='font-weight:700'>${p.title}</div><div class='muted' style='font-size:13px'>@${p.user}</div></div>`;
+          savedEl.appendChild(it);
+        })
+      }
+    }
+
+    // Escape helper for short previews
+    function escapeHtml(text){
+      return text.replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]);
+    }
+
+    // Event handling
+    document.body.addEventListener('click', (e)=>{
+      const btn = e.target.closest('button');
+      if(!btn) return;
+      const action = btn.dataset.action;
+      const id = btn.dataset.id;
+      if(action === 'like') toggleLike(id);
+      if(action === 'save') toggleSave(id);
+      if(action === 'more') openModalFor(id);
+      if(btn.id === 'closeModal') closeModal();
+    });
+
+    // Like toggle
+    function toggleLike(id){
+      const post = posts.find(p=>p.id===id);
+      if(!post) return;
+      if(state.likes[id]){
+        post.likes = Math.max(0, post.likes - 1);
+        delete state.likes[id];
+      } else {
+        post.likes += 1;
+        state.likes[id] = true;
+      }
+      saveState(state);
+      render();
+    }
+
+    // Save toggle
+    function toggleSave(id){
+      const idx = state.saves.indexOf(id);
+      if(idx === -1){ state.saves.push(id); }
+      else{ state.saves.splice(idx,1); }
+      saveState(state);
+      render();
+    }
+
+    // Modal
+    function openModalFor(id){
+      const post = posts.find(p=>p.id===id); if(!post) return;
+      modalContent.innerHTML = `
+        <h2 style="margin-top:0">${post.title}</h2>
+        <div class="muted">@${post.user} • ${post.createdAt} • <strong>${post.likes} likes</strong></div>
+        <img src="${post.image}" alt="${post.title}">
+        <pre style="white-space:pre-wrap;margin:12px 0;color:var(--muted);font-family:inherit">${escapeHtml(post.full)}</pre>
+      `;
+      modal.classList.add('open');
+      // lock scroll on body
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(){ modal.classList.remove('open'); document.body.style.overflow = ''; }
+
+    // close modal on backdrop click
+    modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
+
+    // Initial render
+    // set user
+    const user = getOrCreateUser();
+    document.getElementById('userPill').textContent = user;
+
+    render();
+
+    // Expose a little function for adding posts (for demo)
+    window.addDemoPost = function(data){
+      const id = 'p' + (Date.now());
+      const newPost = {id,user:data.user||user,title:data.title||'Untitled',image:data.image||'',short:data.short||'',full:data.full||'',likes:0,saves:0,createdAt:new Date().toISOString().split('T')[0]};
+      posts.unshift(newPost);
+      render();
+      return id;
+    };
+
+    // Accessibility: Escape closes modal
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+
+  </script>
+</body>
+</html>
