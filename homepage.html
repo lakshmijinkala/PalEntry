@@ -139,8 +139,29 @@
     </div>
   </div>
 
-  <script>
-    // ---------- Sample data (more posts) ----------
+  <script type="module">
+    // Firebase imports (auth gating + logout)
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBcKwN19YU2vNb8bCdQRvenKVVTgMbbsR8",
+      authDomain: "palntry.firebaseapp.com",
+      projectId: "palntry",
+      storageBucket: "palntry.firebasestorage.app",
+      messagingSenderId: "664869269406",
+      appId: "1:664869269406:web:2cdc64f5e64b42d0bdb08f",
+      measurementId: "G-M8NFF4V16W"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // ---------- Sample data (restored to original full list) ----------
    const SAMPLE_POSTS = [
   {id:'p1',user:'Maya',title:'Creamy Lemon Pasta',image:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=60',short:'A bright creamy pasta with lemon, garlic, parmesan.',full:`Ingredients:
 - 12 oz pasta
@@ -182,7 +203,7 @@ Simmer all ingredients for 15-20 minutes.`,likes:178,saves:67,createdAt:'2025-11
       localStorage.setItem(LS_SAVES, JSON.stringify(state.saves));
     }
 
-    // Random username generator (persists to localStorage)
+    // Random username generator (persists to localStorage) - restored
     function getOrCreateUser(){
       let user = localStorage.getItem(LS_USER);
       if(user) return user;
@@ -273,6 +294,9 @@ Simmer all ingredients for 15-20 minutes.`,likes:178,saves:67,createdAt:'2025-11
       if(action === 'save') toggleSave(id);
       if(action === 'more') openModalFor(id);
       if(btn.id === 'closeModal') closeModal();
+      if(btn.id === 'logoutBtn') {
+        signOut(auth).then(()=> window.location.href = 'loginpage.html');
+      }
     });
 
     // Like toggle
@@ -317,17 +341,20 @@ Simmer all ingredients for 15-20 minutes.`,likes:178,saves:67,createdAt:'2025-11
     // close modal on backdrop click
     modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
 
-    // Initial render
-    // set user
-    const user = getOrCreateUser();
-    document.getElementById('userPill').textContent = user;
-
+    // Initial render (keeps the original behavior of showing posts quickly)
     render();
+
+    // set user (use auth if available, otherwise fallback to random local user)
+    function setUserPillFrom(userString){
+      const userPill = document.getElementById('userPill');
+      userPill.innerHTML = `${escapeHtml(userString)} <button id="logoutBtn" class="btn" style="margin-left:8px">Logout</button>`;
+    }
 
     // Expose a little function for adding posts (for demo)
     window.addDemoPost = function(data){
       const id = 'p' + (Date.now());
-      const newPost = {id,user:data.user||user,title:data.title||'Untitled',image:data.image||'',short:data.short||'',full:data.full||'',likes:0,saves:0,createdAt:new Date().toISOString().split('T')[0]};
+      const localUser = getOrCreateUser();
+      const newPost = {id,user:data.user||localUser,title:data.title||'Untitled',image:data.image||'',short:data.short||'',full:data.full||'',likes:0,saves:0,createdAt:new Date().toISOString().split('T')[0]};
       posts.unshift(newPost);
       render();
       return id;
@@ -336,6 +363,21 @@ Simmer all ingredients for 15-20 minutes.`,likes:178,saves:67,createdAt:'2025-11
     // Accessibility: Escape closes modal
     document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
 
+    // --------- Authentication gating (keeps page protected, but preserves original render/display) ----------
+    onAuthStateChanged(auth, (firebaseUser) => {
+      if (!firebaseUser) {
+        // not logged in — send to login
+        window.location.href = "loginpage.html";
+        return;
+      }
+
+      // logged in — set user pill using displayName or email; but keep fallback
+      const display = firebaseUser.displayName || firebaseUser.email || getOrCreateUser();
+      setUserPillFrom(display);
+
+      // re-render to ensure any demo posts or UI that depends on current user are up-to-date
+      render();
+    });
   </script>
 </body>
 </html>
