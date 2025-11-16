@@ -55,6 +55,12 @@ PalEntry helps users reduce waste by scanning their groceries, tracking expirati
 
 [Kelsey Knight](https://github.com/johnsmith): AI Chatbot, Store Locator, Cookbook
 
+## How to run this code on your device: 
+1. Click the green "Code" button
+2. Choose "Download ZIP"
+3. Extract (unzip) the folder
+4. Open the folder in VS Code or run files manually 
+
 <!-- ## Technologies Used
 Content goes here...
 -->
