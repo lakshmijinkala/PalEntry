@@ -47,6 +47,10 @@ PalEntry helps users reduce waste by scanning their groceries, tracking expirati
   * Yellow: Some available
   * Red: None available 
 
+## Complete Workflow
+![Workflow Overview 1](assets/workflowPt1.png)
+![Workflow Overview 2](assets/workflowPt2.png)
+
 ## Splitting our Work
 Content goes here...
 
