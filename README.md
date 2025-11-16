@@ -50,7 +50,9 @@ PalEntry helps users reduce waste by scanning their groceries, tracking expirati
 
 ## Splitting our Work
 [Lakshmi Jinkala](https://github.com/lakshmijinkala): Read Me file, AI Canned Questions, Homepage
+
 [Le Gia Nguyen](https://github.com/GiaKhanhDe): Log-in, Sign-In 
+
 [Kelsey Knight](https://github.com/johnsmith): AI Chatbot, Store Locator, Cookbook
 
 ## Technologies Used
