@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nearby Stores</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        #map {
+            width: 100%;
+            height: 100vh;
+        }
+        .status-banner {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            z-index: 1000;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-banner" id="status">Loading map...</div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Wait for Leaflet to load
+        window.addEventListener('load', function() {
+            // Sample stores data (replace with your actual store data)
+            const stores = [
+                { name: "Aldi", lat: 32.9458, lng: -96.6966, stock: "full", doordash: "https://www.doordash.com/search/?q=ALDI+Richardson", instacart: "https://www.instacart.com/retailer/aldi-delivery/tx/near-me-in-richardson-tx" },
+                { name: "Sprouts Farmers Market", lat: 32.97695, lng: -96.76492, stock: "low", doordash: "https://www.doordash.com/search/?q=Sprouts+Richardson", instacart: "https://www.instacart.com/retailer/sprouts-delivery/tx/near-me-in-richardson-tx" },
+                { name: "Tom Thumb", lat: 32.98008, lng: -96.76689, stock: "out", doordash: "https://www.doordash.com", instacart: "https://www.instacart.com" },
+                { name: "Walmart Neighborhood Market", lat: 32.9552, lng: -96.6987, stock: "full", doordash: "https://www.doordash.com/search/?q=Walmart%20Richardson", instacart: "https://www.instacart.com/store-search?q=Walmart%20Richardson" }
+            ];
+
+            let map;
+            let userMarker;
+
+            // Initialize map
+            function initMap(lat, lng) {
+                map = L.map('map').setView([lat, lng], 13);
+                
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors',
+                    maxZoom: 19
+                }).addTo(map);
+
+                // Add user location marker (blue)
+                userMarker = L.marker([lat, lng], {
+                    icon: L.icon({
+                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    })
+                }).addTo(map);
+                userMarker.bindPopup("<b>Your Location</b>").openPopup();
+
+                // Add store markers
+                stores.forEach(store => {
+                    let iconColor, stockText;
+                    
+                    if (store.stock === "full") {
+                        iconColor = 'green';
+                        stockText = 'Full Stock';
+                    } else if (store.stock === "low") {
+                        iconColor = 'orange';
+                        stockText = 'Low Stock';
+                    } else {
+                        iconColor = 'red';
+                        stockText = 'Out of Stock';
+                    }
+
+                    const marker = L.marker([store.lat, store.lng], {
+                        icon: L.icon({
+                            iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${iconColor}.png`,
+                            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+                            iconSize: [25, 41],
+                            iconAnchor: [12, 41],
+                            popupAnchor: [1, -34],
+                            shadowSize: [41, 41]
+                        })
+                    }).addTo(map);
+
+                    let popupContent = `<b>${store.name}</b><br>${stockText}`;
+                    
+                    // Only add links for stores with full or low stock
+                    if (store.stock === "full" || store.stock === "low") {
+                        popupContent += `<br><br>
+                            <a href="${store.doordash}" target="_blank" style="margin-right: 10px;">DoorDash</a>
+                            <a href="${store.instacart}" target="_blank">Instacart</a>`;
+                    }
+
+                    marker.bindPopup(popupContent);
+                });
+
+                document.getElementById('status').textContent = 'Map loaded! Click markers for details.';
+                setTimeout(() => {
+                    document.getElementById('status').style.display = 'none';
+                }, 3000);
+            }
+
+            // Get user location
+            if (navigator.geolocation) {
+                document.getElementById('status').textContent = 'Getting your location...';
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        initMap(lat, lng);
+                    },
+                    (error) => {
+                        console.log('Location error:', error.message);
+                        // Default to Irving, TX if location access denied
+                        document.getElementById('status').textContent = 'Using default location (Irving, TX)';
+                        initMap(32.8140, -96.9489);
+                        setTimeout(() => {
+                            document.getElementById('status').style.display = 'none';
+                        }, 3000);
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 5000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                document.getElementById('status').textContent = 'Showing default location (Irving, TX)';
+                initMap(32.8140, -96.9489);
+                setTimeout(() => {
+                    document.getElementById('status').style.display = 'none';
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
