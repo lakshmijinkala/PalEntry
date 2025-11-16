@@ -1,67 +1,55 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../website-css/loginpage.css">
-    <title>Reset Password</title>
-    <link rel="icon" href="../img/logo1.png" type="image/x-icon">
-</head>
+body {
+  background-image: url('../img/e5ebca0b-c3b3-4a91-ab67-da8dd64f71f3.jpg');
+  background-size: cover;       /* Fill the whole page */
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
-<body>
-    <div class="entire">
-        <p class="name">Reset Password</p>
+.entire {
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
 
-        <input id="resetEmail" type="text" placeholder="Enter your email">
+.name {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
 
-        <button id="resetBtn">Send Reset Email</button>
+input {
+    background-color: #E5E5E5;
+    border: none;
+    border-radius: 3px;
+    height: 35px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    width: 250px;
+}
 
-        <p style="margin-top: 20px;">
-            <span id="goLogin" style="color: blue; cursor: pointer;">
-                Back to Login
-            </span>
-        </p>
-    </div>
+button {
+    width: 260px;
+    height: 35px;
+    background-color: #A5CFA7;
+    border-color: solid;
+    border-width: 1px;
+    border-radius: 3px;
+    cursor: pointer;
+}
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-        import { 
-            getAuth, 
-            sendPasswordResetEmail 
-        } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+.forgot {
+    font-size: 13px;
+    margin-bottom: -3px;
+    cursor: pointer;
+}
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBcKwN19YU2vNb8bCdQRvenKVVTgMbbsR8",
-            authDomain: "palntry.firebaseapp.com",
-            projectId: "palntry",
-            storageBucket: "palntry.firebasestorage.app",
-            messagingSenderId: "664869269406",
-            appId: "1:664869269406:web:2cdc64f5e64b42d0bdb08f",
-            measurementId: "G-M8NFF4V16W"
-        };
+span {
+    color: #3D3DAF;
+    cursor: pointer;
+}
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        // Send reset email
-        document.getElementById("resetBtn").addEventListener("click", () => {
-            const email = document.getElementById("resetEmail").value;
-
-            sendPasswordResetEmail(auth, email)
-                .then(() => {
-                    alert("Password reset email sent! Check your inbox.");
-                    window.location.href = "loginpage.html";
-                })
-                .catch((error) => {
-                    alert(error.message);
-                });
-        });
-
-        // Back to login
-        document.getElementById("goLogin").addEventListener("click", () => {
-            window.location.href = "loginpage.html";
-        });
-    </script>
-
-</body>
-</html>
+.already {
+    font-size: 15px;
+}
