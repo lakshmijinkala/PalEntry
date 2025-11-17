@@ -55,3 +55,8 @@ async function saveRecipe(recipe) {
     const data = await res.json();
     if (data.status === "saved") alert("Recipe saved to cookbook!");
 }
+
+    const data = await res.json();
+    if (data.status === "saved") alert("Recipe saved to cookbook!");
+}
+
