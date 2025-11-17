@@ -1,7 +1,14 @@
 const sendBtn = document.getElementById("send-btn");
 const userMessage = document.getElementById("user-message");
 const chatbotDiv = document.getElementById("chatbot");
+const goBtn = document.getElementById("go-to-cookbook");
 
+// Redirect to cookbook page
+goBtn.addEventListener("click", () => {
+    window.location.href = "/cookbook_page";
+});
+
+// Handle sending user message
 sendBtn.addEventListener("click", async () => {
     const message = userMessage.value.trim();
     if (!message) return;
@@ -18,7 +25,7 @@ sendBtn.addEventListener("click", async () => {
     displayChatbotRecipe(recipe);
 });
 
-// Display recipe with "Save" button
+// Display recipe with Save button
 function displayChatbotRecipe(recipe) {
     const card = document.createElement("div");
     card.className = "recipe-card";
@@ -33,9 +40,11 @@ function displayChatbotRecipe(recipe) {
     `;
 
     card.querySelector(".save-btn").addEventListener("click", () => saveRecipe(recipe));
+
     chatbotDiv.appendChild(card);
 }
 
+// Save recipe to backend
 async function saveRecipe(recipe) {
     const res = await fetch("/add_recipe", {
         method: "POST",
@@ -44,5 +53,5 @@ async function saveRecipe(recipe) {
     });
 
     const data = await res.json();
-    if (data.status === "saved") alert("Recipe saved!");
+    if (data.status === "saved") alert("Recipe saved to cookbook!");
 }
