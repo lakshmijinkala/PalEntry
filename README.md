@@ -6,7 +6,7 @@ PalEntry helps users reduce waste by scanning their groceries, tracking expirati
 ## Contributers
 - 🥑 [Lakshmi Jinkala](https://github.com/lakshmijinkala)
 - 🫐 [Le Gia Nguyen](https://github.com/GiaKhanhDe)
-- 🍒 [Kelsey Knight](https://github.com/johnsmith)
+- 🍒 [Kelsey Knight](https://github.com/dal739785)
 
 ## Features
 ### Log-In 
@@ -26,12 +26,14 @@ PalEntry helps users reduce waste by scanning their groceries, tracking expirati
 * The User will be able to provide information about their pantry, such as the food items within the pantry, (optional) the amount of goods, (optional).
 * The System/AI will provide detailed advice based on the information provided.
 
+<!--
 ### AI Canned Questions 
 * The User will see a dropdown or button group of “canned” AI questions for quick interaction.
 * Example options: “What can I cook in under 10 minutes?”, “What recipes use my soon-to-expire items?”, “What’s a healthy meal with pasta?”
-* The AI will generate a focused 200-word reply for whichever option is selected.
+* The AI will generate a focused 200-word reply for whichever option is selected. 
+-->
 
-### Store Locator 
+### Store Locator - Map View
 * The User has the option of viewing the stores near them in two ways: a list view or a map view.
 * The list view provides all stores within a specified radius of the user, with colors that indicate the availability of the product asked for.
 * The button should either lead them to the store's DoorDash or Instacart page. 
@@ -49,11 +51,11 @@ PalEntry helps users reduce waste by scanning their groceries, tracking expirati
 ![Workflow Overview 2](assets/workflowPt2.png)
 
 ## Splitting our Work
-[Lakshmi Jinkala](https://github.com/lakshmijinkala): Read Me file, AI Canned Questions, Homepage
+[Lakshmi Jinkala](https://github.com/lakshmijinkala): Read Me file, Homepage, Store Locator
 
 [Le Gia Nguyen](https://github.com/GiaKhanhDe): Log-in, Sign-In 
 
-[Kelsey Knight](https://github.com/johnsmith): AI Chatbot, Store Locator, Cookbook
+[Kelsey Knight](https://github.com/dal739785): AI Chatbot, Cookbook
 
 ## How to run this code on your device: 
 1. Click the green "Code" button
