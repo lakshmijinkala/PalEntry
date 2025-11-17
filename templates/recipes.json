@@ -1,0 +1,44 @@
+[
+  {
+    "ingredients": [
+      "200g pasta",
+      "2 cloves garlic",
+      "2 tbsp olive oil",
+      "Salt"
+    ],
+    "steps": [
+      "Boil pasta until al dente",
+      "Saute garlic in olive oil",
+      "Mix pasta with garlic oil",
+      "Serve hot"
+    ],
+    "title": "Simple Pasta"
+  },
+  {
+    "title": "Classic Spaghetti with Tomato Sauce",
+    "ingredients": [
+      "1 pound spaghetti",
+      "1 (28 ounce) can crushed tomatoes",
+      "1 (15 ounce) can tomato sauce",
+      "1 small onion, chopped",
+      "2 cloves garlic, minced",
+      "2 tablespoons olive oil",
+      "1 teaspoon dried oregano",
+      "1/2 teaspoon dried basil",
+      "Salt and pepper to taste",
+      "Grated Parmesan cheese, for serving"
+    ],
+    "steps": [
+      "Cook spaghetti according to package directions.",
+      "While spaghetti is cooking, heat olive oil in a large saucepan over medium heat.",
+      "Add onion and cook until softened, about 5 minutes.",
+      "Add garlic and cook for 1 minute more, until fragrant.",
+      "Stir in crushed tomatoes, tomato sauce, oregano, and basil.",
+      "Season with salt and pepper to taste.",
+      "Bring to a simmer and cook for at least 15 minutes, or longer for a richer flavor, stirring occasionally.",
+      "Drain spaghetti and add it to the sauce.",
+      "Toss to coat.",
+      "Serve immediately with grated Parmesan cheese."
+    ]
+  }
+]
