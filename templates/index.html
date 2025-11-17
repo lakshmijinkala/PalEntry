@@ -1,28 +1,132 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>AI Chatbot</title>
-    <link rel="stylesheet" href="/static/styles.css">
+  <meta charset="utf-8">
+  <title>PalEntry - Your AI Health Coach</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    #recipe-display { background:#f9f9f9; padding:16px; border:1px solid #ccc; margin-top:12px; }
+    pre.raw { background:#111; color:#e6e6e6; padding:12px; overflow:auto; white-space:pre-wrap; }
+    button { margin-right:8px; }
+  </style>
 </head>
 <body>
-    <h1>AI Cooking Chatbot</h1>
+  <h1>PalEntry - Your AI Health Coach</h1>
 
-    <!-- Go to Cookbook button -->
-    <button id="go-to-cookbook">Go to Cookbook</button>
+  <div>
+    <input type="text" id="message-input" placeholder="Ask for a recipe..." style="width:360px;">
+    <button id="submit-button">Submit</button>
+    <button id="save-button">Save to Cookbook</button>
+    <!-- add this inside the same <div> with your other buttons -->
+<button id="open-cookbook-button" onclick="location.href='/cookbook_page'">Open Cookbook</button>
+  </div>
 
-    <!-- User input -->
-    <div>
-        <textarea id="user-message" placeholder="Ask for a recipe..." rows="3" cols="50"></textarea>
-        <button id="send-btn">Generate Recipe</button>
-    </div>
+  <h3>Generated Recipe</h3>
+  <div id="recipe-display">
+    <em>No recipe yet. Click Submit to ask Gemini.</em>
+  </div>
 
-    <!-- Chatbot recipes will appear here -->
-    <div id="chatbot"></div>
+  <h3>Gemini Raw Response</h3>
+  <pre id="raw-output" class="raw"></pre>
 
-    <script src="/static/chatbot.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const submitBtn = document.querySelector("#submit-button");
+  const saveBtn = document.querySelector("#save-button");
+  const messageInput = document.querySelector("#message-input");
+  const rawOutput = document.querySelector("#raw-output");
+  const recipeDisplay = document.querySelector("#recipe-display");
+
+  let latestRecipe = null;
+
+  submitBtn.addEventListener("click", function () {
+    const message = messageInput.value || "";
+
+    fetch("/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: message })
+    })
+    .then(res => res.json())
+    .then(data => {
+      const raw = data.raw || "";
+      rawOutput.textContent = raw;
+
+      // Remove Markdown code fences if present, then try parsing
+      const cleaned = stripCodeFence(raw);
+      try {
+        latestRecipe = JSON.parse(cleaned);
+        renderRecipe(latestRecipe);
+      } catch (e) {
+        latestRecipe = null;
+        recipeDisplay.innerHTML = `<pre>${escapeHtml(raw)}</pre>`;
+        console.error("JSON parse failed:", e);
+      }
+    })
+    .catch(err => {
+      console.error("Error /chat:", err);
+      rawOutput.textContent = "Error contacting server";
+      recipeDisplay.innerHTML = `<pre>Error contacting server</pre>`;
+      latestRecipe = null;
+    });
+  });
+
+  saveBtn.addEventListener("click", function () {
+    if (!latestRecipe) {
+      alert("No valid parsed recipe to save. Make sure Gemini returned valid JSON.");
+      return;
+    }
+
+    fetch("/add_recipe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ recipe: latestRecipe })
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert("Recipe saved to cookbook!");
+    })
+    .catch(err => {
+      console.error("Error /add_recipe:", err);
+      alert("Failed to save recipe.");
+    });
+  });
+
+  function stripCodeFence(text) {
+    if (!text || typeof text !== "string") return text;
+    // Remove ```json or ``` ... ``` fences
+    const fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+    if (fenceMatch) return fenceMatch[1].trim();
+    // If no fenced block, just trim whitespace
+    return text.trim();
+  }
+
+  function renderRecipe(r) {
+    let html = "";
+    if (r.title) html += `<h4>${escapeHtml(String(r.title))}</h4>`;
+    if (Array.isArray(r.ingredients)) {
+      html += `<strong>Ingredients:</strong><ul>`;
+      r.ingredients.forEach(i => html += `<li>${escapeHtml(String(i))}</li>`);
+      html += `</ul>`;
+    }
+    if (Array.isArray(r.steps)) {
+      html += `<strong>Steps:</strong><ol>`;
+      r.steps.forEach(s => html += `<li>${escapeHtml(String(s))}</li>`);
+      html += `</ol>`;
+    }
+    if (!html) html = `<pre>${escapeHtml(JSON.stringify(r, null, 2))}</pre>`;
+    recipeDisplay.innerHTML = html;
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+});
+</script>
 </body>
-</html>
-</body>
-
 </html>
